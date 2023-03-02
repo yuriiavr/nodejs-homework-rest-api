@@ -6,7 +6,7 @@ const {
   putContactValidation,
   favoriteValidation,
 } = require("../../middlewares/validationMiddlewares");
-const { contacts: ctrl } = require("../../contollers");
+const { contacts: ctrl } = require("../../controllers");
 
 router.get("/", asyncWrapper(ctrl.getContacts));
 

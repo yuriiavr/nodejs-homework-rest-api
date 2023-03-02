@@ -1,0 +1,27 @@
+const express = require("express");
+const router = express.Router();
+const { asyncWrapper } = require("../../helpers/asyncWrapper");
+const {
+  userValidation,
+  loginValidation,
+  subscriptionValidation,
+} = require("../../middlewares/validationMiddlewares");
+const ctrl = require("../../controllers/auth");
+const { authenticate } = require("../../middlewares");
+
+router.post("/signup", userValidation, asyncWrapper(ctrl.register));
+
+router.post("/login", loginValidation, asyncWrapper(ctrl.login));
+
+router.get("/current", authenticate, asyncWrapper(ctrl.getCurrent));
+
+router.get("/logout", authenticate, asyncWrapper(ctrl.logout));
+
+router.patch(
+  "/",
+  authenticate,
+  subscriptionValidation,
+  asyncWrapper(ctrl.subscriptionStatus)
+);
+
+module.exports = router;
