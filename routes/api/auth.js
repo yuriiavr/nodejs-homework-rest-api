@@ -7,7 +7,8 @@ const {
   subscriptionValidation,
 } = require("../../middlewares/validationMiddlewares");
 const ctrl = require("../../controllers/auth");
-const { authenticate } = require("../../middlewares");
+const { files: filesCtrl } = require("../../controllers");
+const { authenticate, upload } = require("../../middlewares");
 
 router.post("/signup", userValidation, asyncWrapper(ctrl.register));
 
@@ -16,6 +17,20 @@ router.post("/login", loginValidation, asyncWrapper(ctrl.login));
 router.get("/current", authenticate, asyncWrapper(ctrl.getCurrent));
 
 router.get("/logout", authenticate, asyncWrapper(ctrl.logout));
+
+router.patch(
+  "/",
+  authenticate,
+  subscriptionValidation,
+  asyncWrapper(ctrl.subscriptionStatus)
+);
+
+router.patch(
+  "/avatars",
+  authenticate,
+  upload.single("avatar"),
+  asyncWrapper(filesCtrl.updateAvatar)
+);
 
 router.patch(
   "/",
