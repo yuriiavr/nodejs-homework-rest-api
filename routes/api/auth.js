@@ -5,6 +5,7 @@ const {
   userValidation,
   loginValidation,
   subscriptionValidation,
+  verifyEmailSchema,
 } = require("../../middlewares/validationMiddlewares");
 const ctrl = require("../../controllers/auth");
 const { files: filesCtrl } = require("../../controllers");
@@ -38,5 +39,9 @@ router.patch(
   subscriptionValidation,
   asyncWrapper(ctrl.subscriptionStatus)
 );
+
+router.get("/verify/:verificationToken", asyncWrapper(ctrl.verify));
+
+router.post("/verify", verifyEmailSchema, asyncWrapper(ctrl.resendVerify));
 
 module.exports = router;

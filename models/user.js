@@ -1,4 +1,3 @@
-const Joi = require("joi");
 const { Schema, model } = require("mongoose");
 const handleSaveErrors = require("../helpers/handleSaveErrors");
 
@@ -24,6 +23,14 @@ const userSchema = new Schema(
     token: {
       type: String,
       default: "",
+    },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      required: [true, "Verification token is required"],
     },
   },
   { versionKey: false, timestamps: true }
